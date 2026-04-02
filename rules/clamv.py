@@ -150,7 +150,6 @@ class ClamVRulesPipeline(BasePipeline):
 
             signature_data = {
                 "name": name,
-                "rule_type": "hash",
                 "signature": rule_entry.get("hash"),
                 "file_size": rule_entry.get("file_size"),
                 "line_num": rule_entry.get("line_num"),
@@ -166,8 +165,7 @@ class ClamVRulesPipeline(BasePipeline):
 
             signature_data = {
                 "name": name,
-                "rule_type": "extended",
-                "signature": rule_entry.get("hex_signature"),
+                "hex_signature": rule_entry.get("hex_signature"),
                 "target_type": rule_entry.get("target_type"),
                 "offset": rule_entry.get("offset"),
                 "line_num": rule_entry.get("line_num"),
@@ -176,11 +174,7 @@ class ClamVRulesPipeline(BasePipeline):
             processed_ndb.append(signature_data)
 
         final_output = {"hdb_rules": processed_hdb, "ndb_rules": processed_ndb}
-
-        output_dir = Path("data") / "clamv"
-        output_dir.mkdir(parents=True, exist_ok=True)
-        output_file = output_dir / "clamav_db.json"
-
+        output_file = Path("data") / "clamav_db.json"
         with output_file.open("w", encoding="utf-8") as f:
             json.dump(final_output, f, indent=4)
 

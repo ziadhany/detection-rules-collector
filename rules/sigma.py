@@ -10,7 +10,6 @@
 from pipeline import BaseRulePipeline
 
 class CollectSigmaRulesPipeline(BaseRulePipeline):
-    rule_type = "sigma"
     rglob_patterns = ["**/*.yml"]
 
 

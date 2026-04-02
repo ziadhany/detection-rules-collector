@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 
 from aboutcode.pipeline import BasePipeline
@@ -22,7 +23,8 @@ class BaseRulePipeline(BasePipeline):
 
     def collect_and_store_rules(self):
         base_directory = Path(self.vcs_response.dest_dir)
-        output_dir = Path("data") / self.rule_type
+        repo_hash = hashlib.sha256(str(self.repo_url).encode('utf-8')).hexdigest()
+        output_dir = Path("data") / repo_hash
         output_dir.mkdir(parents=True, exist_ok=True)
 
         for pattern in self.rglob_patterns:
@@ -35,6 +37,5 @@ class BaseRulePipeline(BasePipeline):
 
                         content = p.read_text(encoding="utf-8")
                         target_path.write_text(content, encoding="utf-8")
-
                     except Exception as e:
                         print(f"Failed to process {p}: {e}")

@@ -6,8 +6,8 @@
 # See https://github.com/aboutcode-org/vulnerablecode for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
-from rules.pipeline import BaseRulePipeline
 
+from pipeline import BaseRulePipeline
 
 class SuricataRulesPipeline(BaseRulePipeline):
     rule_type = "suricata"

@@ -7,11 +7,10 @@
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
-from rules.pipeline import BaseRulePipeline
+from pipeline import BaseRulePipeline
 
 
 class YaraRulesPipeline(BaseRulePipeline):
-    rule_type = "yara"
     rglob_patterns = [
         "**/*.yara",
         "**/*.yar",
@@ -184,7 +183,6 @@ class TenableYaraRules(YaraRulesPipeline):
     license_url = (
         "https://github.com/tenable/yara-rules/tree/master?tab=BSD-3-Clause-1-ov-file"
     )
-
 
 class Dr4k0niaYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/dr4k0nia/yara-rules"
