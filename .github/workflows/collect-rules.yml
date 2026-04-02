@@ -1,4 +1,4 @@
-name: Hourly sync for collecting Detection Rules commits
+name: Hourly sync for collecting Detection Rules
 
 on:
   workflow_dispatch:
