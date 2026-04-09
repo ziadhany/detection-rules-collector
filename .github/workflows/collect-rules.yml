@@ -22,7 +22,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install required packages
-        run: pip install aboutcode.pipeline==0.2.1 fetchcode==0.8.2
+        run: pip install aboutcode.pipeline==0.2.1 fetchcode==0.8.2 plyara==2.2.8 suricataparser==1.0.0
 
       - name: Run sync
         run: python rules_collector.py
