@@ -8,13 +8,44 @@
 #
 
 from pipeline import BaseRulePipeline
-
+import plyara
+from plyara.utils import rebuild_yara_rule
+from plyara.exceptions import ParseTypeError
 
 class YaraRulesPipeline(BaseRulePipeline):
+    rule_type = "yara"
     rglob_patterns = [
         "**/*.yara",
         "**/*.yar",
     ]
+
+    def extract_metadata(self, parsed_rule):
+        metadata = {
+            "rule_name": parsed_rule.get("rule_name"),
+            "tags": parsed_rule.get("tags", [])
+        }
+        for entry in parsed_rule.get("metadata", []):
+            metadata.update(entry)
+        return metadata
+
+    def to_json(self, raw_text):
+        parser = plyara.Plyara()
+        try:
+            parsed_rules = parser.parse_string(raw_text)
+        except ParseTypeError as e:
+            self.log(f"Skipping malformed YARA rule due to parser error: {e}")
+            return []
+
+        results = []
+        for rule in parsed_rules:
+            rule_metadata = self.extract_metadata(rule)
+            rule_text = rebuild_yara_rule(rule)
+            results.append({
+                "rule_metadata": rule_metadata,
+                "rule_text": rule_text,
+                "vulnerabilities": self.get_related_vulnerabilities(raw_text)
+            })
+        return results
 
 
 class ProtectionsArtifactsYara(YaraRulesPipeline):

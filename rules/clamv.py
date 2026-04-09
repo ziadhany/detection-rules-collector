@@ -95,6 +95,7 @@ class ClamVRulesPipeline(BasePipeline):
 
     license_url = "https://github.com/Cisco-Talos/clamav/blob/c73755d3fc130b0c60ccf4e8f8d28c62fc58c95b/README.md#licensing"
     license_expression = "GNU GENERAL PUBLIC LICENSE"
+    rule_type = "clamv"
 
     @classmethod
     def steps(cls):
@@ -174,7 +175,10 @@ class ClamVRulesPipeline(BasePipeline):
             processed_ndb.append(signature_data)
 
         final_output = {"hdb_rules": processed_hdb, "ndb_rules": processed_ndb}
-        output_file = Path("data") / "clamav_db.json"
+        target_path = Path("data") / self.rule_type
+        target_path.mkdir(parents=True, exist_ok=True)
+
+        output_file = target_path / "clamav_db.json"
         with output_file.open("w", encoding="utf-8") as f:
             json.dump(final_output, f, indent=4)
 

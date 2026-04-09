@@ -8,16 +8,33 @@
 #
 
 from pipeline import BaseRulePipeline
+from suricataparser import parse_rules
 
 class SuricataRulesPipeline(BaseRulePipeline):
     rule_type = "suricata"
-    rglob_patterns = ["**/*.rules"]
+    rglob_patterns = ["**/*.rules", "**/*.rule"]
 
+    def extract_metadata(self, rule):
+        return {
+            "rule_name": rule.msg,
+            "version": rule.rev,
+            "id": rule.sid,
+            "enabled": rule.enabled,
+        }
+
+    def to_json(self, raw_text):
+        rules_data = []
+        for current_rule in parse_rules(raw_text):
+            rules_data.append({
+                "rule_metadata": self.extract_metadata(current_rule),
+                "rule_text": current_rule.raw,
+                "advisories": self.get_related_vulnerabilities(current_rule.raw)
+            })
+        return rules_data
 
 class SudohyakSuricataPipeline(SuricataRulesPipeline):
     repo_url = "https://github.com/sudohyak/suricata-rules"
     license_url = "https://github.com/sudohyak/suricata-rules/blob/main/LICENSE"
-
 
 class OISFSuricataPipeline(SuricataRulesPipeline):
     repo_url = "https://github.com/OISF/suricata"

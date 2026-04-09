@@ -7,11 +7,52 @@
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
+import datetime
+import yaml
 from pipeline import BaseRulePipeline
 
 class CollectSigmaRulesPipeline(BaseRulePipeline):
+    rule_type = "sigma"
     rglob_patterns = ["**/*.yml"]
 
+    def extract_metadata(self, document):
+        """
+        Extract Sigma metadata from a parsed Sigma YAML document (dictionary).
+        """
+        if not isinstance(document, dict):
+            return {}
+
+        metadata = {
+            "status": document.get("status"),
+            "author": document.get("author"),
+            "date": document.get("date"),
+            "title": document.get("title"),
+            "id": document.get("id"),
+        }
+
+        rule_date = metadata.get("date")
+
+        if isinstance(rule_date, (datetime.date, datetime.datetime)):
+            metadata["date"] = rule_date.isoformat()
+
+        return metadata
+
+    def to_json(self, raw_text):
+        results = []
+        try:
+            rule_documents = yaml.safe_load_all(raw_text)
+            for document in rule_documents:
+                specific_rule_text = yaml.dump(document, sort_keys=False)
+                results.append({
+                    "rule_metadata": self.extract_metadata(document),
+                    "rule_text": specific_rule_text,
+                    "vulnerabilities": self.get_related_vulnerabilities(specific_rule_text)
+                })
+
+        except yaml.YAMLError as e:
+            self.log(f"Failed to parse Sigma YAML: {e}")
+
+        return results
 
 class SigmaHQImproverPipeline(CollectSigmaRulesPipeline):
     repo_url = "https://github.com/SigmaHQ/sigma"
@@ -22,6 +63,7 @@ class SigmaHQImproverPipeline(CollectSigmaRulesPipeline):
         "rules-placeholder/**/*.yml",
         "rules-threat-hunting/**/*.yml",
         "rules-compliance/**/*.yml",
+        "other/**/*.yml",
     ]
 
 
