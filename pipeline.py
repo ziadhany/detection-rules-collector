@@ -1,3 +1,12 @@
+#
+# Copyright (c) nexB Inc. and others. All rights reserved.
+# VulnerableCode is a trademark of nexB Inc.
+# SPDX-License-Identifier: Apache-2.0
+# See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
+# See https://github.com/aboutcode-org/vulnerablecode for support or download.
+# See https://aboutcode.org for more information about nexB OSS projects.
+#
+
 import hashlib
 import json
 import re
@@ -52,25 +61,35 @@ class BaseRulePipeline(BasePipeline):
     def extract_metadata(self, raw_text):
        raise NotImplementedError
 
-    def get_related_vulnerabilities(self, raw_text):
-        """
-        Find all CVE in a rule text
-        ex:
-        >>> self.get_related_vulnerabilities("rule LOG_SUSP_EXPL_POC_VMWare_Workspace_ONE_CVE_2022_22954_Apr22_")
-        ['CVE-2022-22954']
-
-        >>> self.get_related_vulnerabilities("Detects payload as seen in PoC code to exploit Workspace ONE Access freemarker server-side template injection CVE-2022-22954")
-        ['CVE-2022-22954']
-
-        >>> sorted(self.get_related_vulnerabilities("Detects suspicious file writes ... such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770. "))
-        ['CVE-2025-49704', 'CVE-2025-49706', 'CVE-2025-53770']
-
-        >>> self.get_related_vulnerabilities("No valid CVE- in this text")
-        set()
-        """
-        cve_regex = re.compile(r"CVE[-_]\d{4}[-_]\d{4,19}", re.IGNORECASE)
-        matches = cve_regex.findall(raw_text)
-        return list(set([cve.upper().replace("_", "-") for cve in matches]))
-
     def to_json(self, text):
         raise NotImplementedError
+
+
+def get_related_vulnerabilities(raw_text):
+    """
+    Find all CVE-id or GHSA-id in a rule text
+    ex:
+    >>> get_related_vulnerabilities("rule LOG_SUSP_EXPL_POC_VMWare_Workspace_ONE_CVE_2022_22954_Apr22_")
+    ['CVE-2022-22954']
+
+    >>> get_related_vulnerabilities("Detects payload as seen in PoC code to exploit Workspace ONE Access freemarker server-side template injection CVE-2022-22954")
+    ['CVE-2022-22954']
+
+    >>> sorted(get_related_vulnerabilities("Detects suspicious file writes ... such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770. "))
+    ['CVE-2025-49704', 'CVE-2025-49706', 'CVE-2025-53770']
+
+    >>> get_related_vulnerabilities("Found a GitHub advisory GHSA-cxv9-cxv9-cxv9 in the text")
+    ['GHSA-CXV9-CXV9-CXV9']
+
+    >>> get_related_vulnerabilities("No valid CVE- in this text")
+    set()
+    """
+    patterns = [
+        r"CVE[-_]\d{4}[-_]\d{4,19}",
+        r"GHSA-[2-9cfghjmpqrvwx]{4}-[2-9cfghjmpqrvwx]{4}-[2-9cfghjmpqrvwx]{4}"
+    ]
+
+    vuln_regex = re.compile(r"|".join(patterns), re.IGNORECASE)
+    matches = vuln_regex.findall(raw_text)
+    unique_matches = list(set([vuln.upper().replace("_", "-") for vuln in matches]))
+    return unique_matches if unique_matches else []

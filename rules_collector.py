@@ -1,6 +1,9 @@
 import sys
 
-from rules import clamv, sigma, suricata, yara
+from rules import sigma
+from rules import clamav
+from rules import yara
+from rules import suricata
 
 if __name__ == "__main__":
     RULES_REGISTRY = [
@@ -44,7 +47,7 @@ if __name__ == "__main__":
         suricata.SudohyakSuricataPipeline,
         suricata.OISFSuricataPipeline,
         # ClamV Rules
-        clamv.ClamVRulesPipeline,
+        clamav.ClamAVPipeline,
     ]
 
     for pipeline in RULES_REGISTRY:

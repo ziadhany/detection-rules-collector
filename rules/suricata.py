@@ -7,16 +7,21 @@
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
+
 from pipeline import BaseRulePipeline
 from suricataparser import parse_rules
+from pipeline import get_related_vulnerabilities
 
 class SuricataRulesPipeline(BaseRulePipeline):
     rule_type = "suricata"
     rglob_patterns = ["**/*.rules", "**/*.rule"]
 
     def extract_metadata(self, rule):
+        """
+        Extract Suricata metadata from a parsed Suricata rule
+        """
         return {
-            "rule_name": rule.msg,
+            "name": rule.msg,
             "version": rule.rev,
             "id": rule.sid,
             "enabled": rule.enabled,
@@ -28,7 +33,7 @@ class SuricataRulesPipeline(BaseRulePipeline):
             rules_data.append({
                 "rule_metadata": self.extract_metadata(current_rule),
                 "rule_text": current_rule.raw,
-                "advisories": self.get_related_vulnerabilities(current_rule.raw)
+                "vulnerabilities": get_related_vulnerabilities(current_rule.raw)
             })
         return rules_data
 

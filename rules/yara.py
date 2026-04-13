@@ -8,6 +8,7 @@
 #
 
 from pipeline import BaseRulePipeline
+from pipeline import get_related_vulnerabilities
 import plyara
 from plyara.utils import rebuild_yara_rule
 from plyara.exceptions import ParseTypeError
@@ -20,8 +21,11 @@ class YaraRulesPipeline(BaseRulePipeline):
     ]
 
     def extract_metadata(self, parsed_rule):
+        """
+        Extract Yara metadata from a parsed Yara rule
+        """
         metadata = {
-            "rule_name": parsed_rule.get("rule_name"),
+            "name": parsed_rule.get("rule_name"),
             "tags": parsed_rule.get("tags", [])
         }
         for entry in parsed_rule.get("metadata", []):
@@ -43,7 +47,7 @@ class YaraRulesPipeline(BaseRulePipeline):
             results.append({
                 "rule_metadata": rule_metadata,
                 "rule_text": rule_text,
-                "vulnerabilities": self.get_related_vulnerabilities(raw_text)
+                "vulnerabilities": get_related_vulnerabilities(raw_text)
             })
         return results
 

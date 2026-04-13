@@ -10,6 +10,8 @@
 import datetime
 import yaml
 from pipeline import BaseRulePipeline
+from pipeline import get_related_vulnerabilities
+
 
 class CollectSigmaRulesPipeline(BaseRulePipeline):
     rule_type = "sigma"
@@ -17,7 +19,7 @@ class CollectSigmaRulesPipeline(BaseRulePipeline):
 
     def extract_metadata(self, document):
         """
-        Extract Sigma metadata from a parsed Sigma YAML document (dictionary).
+        Extract Sigma metadata from a parsed Sigma YAML document
         """
         if not isinstance(document, dict):
             return {}
@@ -46,7 +48,7 @@ class CollectSigmaRulesPipeline(BaseRulePipeline):
                 results.append({
                     "rule_metadata": self.extract_metadata(document),
                     "rule_text": specific_rule_text,
-                    "vulnerabilities": self.get_related_vulnerabilities(specific_rule_text)
+                    "vulnerabilities": get_related_vulnerabilities(specific_rule_text)
                 })
 
         except yaml.YAMLError as e:
@@ -64,7 +66,7 @@ class SigmaHQImproverPipeline(CollectSigmaRulesPipeline):
         "rules-threat-hunting/**/*.yml",
         "rules-compliance/**/*.yml",
         "other/**/*.yml",
-    ]
+    ] # Ignore deprecated and unsupported directories.
 
 
 class SigmaSamuraiMDRImproverPipeline(CollectSigmaRulesPipeline):
