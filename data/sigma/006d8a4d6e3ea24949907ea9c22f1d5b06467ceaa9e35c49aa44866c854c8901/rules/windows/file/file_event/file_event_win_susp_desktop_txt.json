@@ -1,0 +1,16 @@
+{
+    "source_url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_desktop_txt.yml",
+    "rules": [
+        {
+            "rule_metadata": {
+                "status": "test",
+                "author": "frack113",
+                "date": "2021-12-26",
+                "title": "Suspicious Creation TXT File in User Desktop",
+                "id": "caf02a0a-1e1c-4552-9b48-5e070bd88d11"
+            },
+            "rule_text": "title: Suspicious Creation TXT File in User Desktop\nid: caf02a0a-1e1c-4552-9b48-5e070bd88d11\nstatus: test\ndescription: Ransomware create txt file in the user Desktop\nreferences:\n- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1486/T1486.md#atomic-test-5---purelocker-ransom-note\nauthor: frack113\ndate: 2021-12-26\ntags:\n- attack.impact\n- attack.t1486\nlogsource:\n  product: windows\n  category: file_event\ndetection:\n  selection:\n    Image|endswith: \\cmd.exe\n    TargetFilename|contains|all:\n    - \\Users\\\n    - \\Desktop\\\n    TargetFilename|endswith: .txt\n  condition: selection\nfalsepositives:\n- Unknown\nlevel: high\n",
+            "vulnerabilities": []
+        }
+    ]
+}

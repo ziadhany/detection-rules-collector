@@ -1,0 +1,16 @@
+{
+    "source_url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_lsa_ppl_protection_disabled.yml",
+    "rules": [
+        {
+            "rule_metadata": {
+                "status": "test",
+                "author": "Florian Roth (Nextron Systems)",
+                "date": "2022-03-22",
+                "title": "LSA PPL Protection Disabled Via Reg.EXE",
+                "id": "8c0eca51-0f88-4db2-9183-fdfb10c703f9"
+            },
+            "rule_text": "title: LSA PPL Protection Disabled Via Reg.EXE\nid: 8c0eca51-0f88-4db2-9183-fdfb10c703f9\nstatus: test\ndescription: Detects the usage of the \"reg.exe\" utility to disable PPL protection\n  on the LSA process\nreferences:\n- https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/\nauthor: Florian Roth (Nextron Systems)\ndate: 2022-03-22\nmodified: 2023-03-26\ntags:\n- attack.defense-evasion\n- attack.t1562.010\nlogsource:\n  category: process_creation\n  product: windows\ndetection:\n  selection_img:\n  - Image|endswith: \\reg.exe\n  - OriginalFileName: reg.exe\n  selection_cli:\n    CommandLine|contains: SYSTEM\\CurrentControlSet\\Control\\Lsa\n    CommandLine|contains|all:\n    - ' add '\n    - ' /d 0'\n    - ' /v RunAsPPL '\n  condition: all of selection_*\nfalsepositives:\n- Unlikely\nlevel: high\n",
+            "vulnerabilities": []
+        }
+    ]
+}

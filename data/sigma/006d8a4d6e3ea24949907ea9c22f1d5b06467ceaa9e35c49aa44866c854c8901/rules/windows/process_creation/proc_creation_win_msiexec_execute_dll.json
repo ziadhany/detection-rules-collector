@@ -1,0 +1,16 @@
+{
+    "source_url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_execute_dll.yml",
+    "rules": [
+        {
+            "rule_metadata": {
+                "status": "test",
+                "author": "frack113",
+                "date": "2022-01-16",
+                "title": "Suspicious Msiexec Execute Arbitrary DLL",
+                "id": "6f4191bb-912b-48a8-9ce7-682769541e6d"
+            },
+            "rule_text": "title: Suspicious Msiexec Execute Arbitrary DLL\nid: 6f4191bb-912b-48a8-9ce7-682769541e6d\nstatus: test\ndescription: 'Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.\n\n  Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly\n  associated with executing installation packages (.msi)\n\n  '\nreferences:\n- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/msiexec\n- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1218.007/T1218.007.md\n- https://twitter.com/_st0pp3r_/status/1583914515996897281\nauthor: frack113\ndate: 2022-01-16\nmodified: 2024-03-13\ntags:\n- attack.defense-evasion\n- attack.t1218.007\nlogsource:\n  category: process_creation\n  product: windows\ndetection:\n  selection:\n    Image|endswith: \\msiexec.exe\n    CommandLine|contains|windash: ' -y'\n  filter_apple:\n    CommandLine|contains:\n    - \\MsiExec.exe\" /Y \"C:\\Program Files\\Bonjour\\mdnsNSP.dll\n    - \\MsiExec.exe\" /Y \"C:\\Program Files (x86)\\Bonjour\\mdnsNSP.dll\n    - \\MsiExec.exe\" /Y \"C:\\Program Files (x86)\\Apple Software Update\\ScriptingObjectModel.dll\n    - \\MsiExec.exe\" /Y \"C:\\Program Files (x86)\\Apple Software Update\\SoftwareUpdateAdmin.dll\n    - \\MsiExec.exe\" /Y \"C:\\Windows\\CCM\\\n    - \\MsiExec.exe\" /Y C:\\Windows\\CCM\\\n    - \\MsiExec.exe\" -Y \"C:\\Program Files\\Bonjour\\mdnsNSP.dll\n    - \\MsiExec.exe\" -Y \"C:\\Program Files (x86)\\Bonjour\\mdnsNSP.dll\n    - \\MsiExec.exe\" -Y \"C:\\Program Files (x86)\\Apple Software Update\\ScriptingObjectModel.dll\n    - \\MsiExec.exe\" -Y \"C:\\Program Files (x86)\\Apple Software Update\\SoftwareUpdateAdmin.dll\n    - \\MsiExec.exe\" -Y \"C:\\Windows\\CCM\\\n    - \\MsiExec.exe\" -Y C:\\Windows\\CCM\\\n  condition: selection and not 1 of filter_*\nfalsepositives:\n- Legitimate script\nlevel: medium\n",
+            "vulnerabilities": []
+        }
+    ]
+}
