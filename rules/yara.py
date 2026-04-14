@@ -54,11 +54,9 @@ class YaraRulesPipeline(BaseRulePipeline):
 
 class ProtectionsArtifactsYara(YaraRulesPipeline):
     repo_url = "https://github.com/elastic/protections-artifacts"
-    license_url = (
-        "https://github.com/elastic/protections-artifacts/blob/main/LICENSE.txt"
-    )
     rglob_patterns = ["yara/rules/**/*.yar"]
-
+    license_url = "https://github.com/elastic/protections-artifacts/blob/main/LICENSE.txt"
+    license_expression = "elastic-license-v2"
 
 class YaraRulesYara(YaraRulesPipeline):
     repo_url = "https://github.com/Yara-Rules/rules"
@@ -78,18 +76,20 @@ class YaraRulesYara(YaraRulesPipeline):
         "utils/**/*.yar",
         "webshells/**/*.yar",
     ]
+    license_expression = "GPL-3.0-only"
 
 
 class XumeiquerForensicsYara(YaraRulesPipeline):
     repo_url = "https://github.com/Xumeiquer/yara-forensics"
     license_url = "https://github.com/Xumeiquer/yara-forensics/blob/master/LICENSE"
-
+    license_expression = "GPL-3.0-only"
 
 class ReversinglabsYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/reversinglabs/reversinglabs-yara-rules"
     license_url = (
         "https://github.com/reversinglabs/reversinglabs-yara-rules/blob/develop/LICENSE"
     )
+    license_expression = "MIT"
 
 
 class AdvancedThreatResearchYara(YaraRulesPipeline):
@@ -97,133 +97,120 @@ class AdvancedThreatResearchYara(YaraRulesPipeline):
     license_url = (
         "https://github.com/advanced-threat-research/Yara-Rules/blob/master/LICENSE"
     )
+    license_expression = "Apache-2.0"
 
 
 class BartblazeYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/bartblaze/Yara-rules"
     license_url = "https://github.com/bartblaze/Yara-rules/blob/master/LICENSE"
-
+    license_expression = "MIT"
 
 class GodaddyYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/godaddy/yara-rules"  # archived
     license_url = "https://github.com/godaddy/yara-rules/blob/master/LICENSE.md"
-
+    license_expression = "MIT"
 
 class SupportIntelligenceIcewaterYara(YaraRulesPipeline):
     repo_url = "https://github.com/SupportIntelligence/Icewater"
     license_url = "https://github.com/SupportIntelligence/Icewater/blob/master/LICENSE"
-
+    license_expression = "LicenseRef-scancode-ril-2019"
 
 class Jeff0FalltradesSignaturesYara(YaraRulesPipeline):
     repo_url = "https://github.com/jeFF0Falltrades/YARA-Signatures"
     license_url = (
         "https://github.com/jeFF0Falltrades/YARA-Signatures/blob/master/LICENSE.md"
     )
-
+    license_expression = "DRL-1.1"
 
 class TjnelRepoYara(YaraRulesPipeline):
     repo_url = "https://github.com/tjnel/yara_repo"
     license_url = "https://github.com/tjnel/yara_repo/blob/master/LICENSE"
-
+    license_expression = "MIT"
 
 class JpcertccJpcertYara(YaraRulesPipeline):
     repo_url = "https://github.com/JPCERTCC/jpcert-yara"
     license_url = "https://github.com/JPCERTCC/jpcert-yara/blob/main/LICENSE"
-
+    license_expression = "BSD-3-Clause"
 
 class MikesxrsOpenSourceYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/mikesxrs/Open-Source-YARA-rules"
-    license_url = None
-
 
 class FboldewinYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/fboldewin/YARA-rules"
-    license_url = None
-
 
 class H3x2bYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/h3x2b/yara-rules"
-    license_url = None
-
 
 class RoadwyDefenderYara(YaraRulesPipeline):
     repo_url = "https://github.com/roadwy/DefenderYara"
-    license_url = None
-
 
 class MthchtThreatHuntingKeywordsYara(YaraRulesPipeline):
     repo_url = "https://github.com/mthcht/ThreatHunting-Keywords-yara-rules"
     license_url = (
         "https://github.com/mthcht/ThreatHunting-Keywords-yara-rules/blob/main/LICENSE"
     )
-
+    license_expression = "LicenseRef-scancode-drul-1.0"
 
 class Neo23x0SignatureBaseYara(YaraRulesPipeline):
     repo_url = "https://github.com/Neo23x0/signature-base"
-    license_url = None
-
 
 class MalpediaSignatorRulesYara(YaraRulesPipeline):
     repo_url = "https://github.com/malpedia/signator-rules"
     license_url = "https://creativecommons.org/licenses/by-sa/4.0/"
-
+    license_expression = "CC-BY-SA-4.0"
 
 class BaderjYara(YaraRulesPipeline):
     repo_url = "https://github.com/baderj/yara"
     license_url = "https://github.com/baderj/yara/blob/main/LICENSE"
-
+    license_expression = "MIT"
 
 class DeadbitsYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/deadbits/yara-rules"
     license_url = "https://github.com/deadbits/yara-rules/blob/master/UNLICENSE"
-
+    license_expression = "Unlicense"
 
 class PmelsonYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/pmelson/yara_rules"
-    license_url = None
-
 
 class SbousseadenYaraHunts(YaraRulesPipeline):
     repo_url = "https://github.com/sbousseaden/YaraHunts"
-    license_url = None
-
 
 class EmbeeResearchYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/embee-research/Yara-detection-rules"
     license_url = "https://github.com/embee-research/Yara-detection-rules/tree/main?tab=readme-ov-file#detection-rule-license-drl-11"
-
+    license_expression = "DRL-1.1"
 
 class RussianPanda95YaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/RussianPanda95/Yara-Rules"
-    license_url = None
-
 
 class AilProjectAilYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/ail-project/ail-yara-rules"
     license_url = "https://github.com/ail-project/ail-yara-rules?tab=AGPL-3.0-1-ov-file"
-
+    license_expression = "AGPL-3.0-only"
 
 class MalgamyYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/MalGamy/YARA_Rules"
     license_url = "https://github.com/MalGamy/YARA_Rules/blob/main/LICENSE.md"
-
+    license_expression = "DRL-1.1"
 
 class ElceefYaraRulz(YaraRulesPipeline):
     repo_url = "https://github.com/elceef/yara-rulz"
     license_url = "https://github.com/elceef/yara-rulz/tree/main?tab=MIT-1-ov-file"
-
+    license_expression = "MIT"
 
 class TenableYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/tenable/yara-rules"
     license_url = (
         "https://github.com/tenable/yara-rules/tree/master?tab=BSD-3-Clause-1-ov-file"
     )
+    license_expression = "BSD-3-Clause"
 
 class Dr4k0niaYaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/dr4k0nia/yara-rules"
     license_url = "https://github.com/dr4k0nia/yara-rules/blob/main/LICENSE.md"
-
+    license_expression = "DRL-1.1"
 
 class Umair9747YaraRules(YaraRulesPipeline):
     repo_url = "https://github.com/umair9747/yara-rules"
     license_url = "https://github.com/umair9747/yara-rules?tab=GPL-3.0-1-ov-file"
+    license_expression = "GPL-3.0-only"

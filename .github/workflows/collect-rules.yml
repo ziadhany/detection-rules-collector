@@ -1,9 +1,9 @@
-name: Hourly sync for collecting Detection Rules
+name: 2 Hour sync for collecting Detection Rules
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 */2 * * *'
 
 permissions:
   contents: write

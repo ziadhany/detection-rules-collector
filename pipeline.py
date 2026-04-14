@@ -18,6 +18,8 @@ from fetchcode.vcs import fetch_via_vcs
 
 class BaseRulePipeline(BasePipeline):
     repo_url = None
+    license_url = None
+    license_expression = None
     rule_type = None
     rglob_patterns = []
 

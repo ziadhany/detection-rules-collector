@@ -40,8 +40,10 @@ class SuricataRulesPipeline(BaseRulePipeline):
 class SudohyakSuricataPipeline(SuricataRulesPipeline):
     repo_url = "https://github.com/sudohyak/suricata-rules"
     license_url = "https://github.com/sudohyak/suricata-rules/blob/main/LICENSE"
+    license_expression = "GPL-3.0-only"
 
 class OISFSuricataPipeline(SuricataRulesPipeline):
     repo_url = "https://github.com/OISF/suricata"
     rglob_patterns = ["rules/**/*.rules"]
     license_url = "https://github.com/OISF/suricata?tab=GPL-2.0-2-ov-file"
+    license_expression = "GPL-2.0-only"

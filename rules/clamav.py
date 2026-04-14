@@ -122,7 +122,7 @@ class ClamAVPipeline(BasePipeline):
 
     database_url = "https://database.clamav.net/main.cvd?api-version=1"
     license_url = "https://github.com/Cisco-Talos/clamav/blob/c73755d3fc130b0c60ccf4e8f8d28c62fc58c95b/README.md#licensing"
-    license_expression = "GNU GENERAL PUBLIC LICENSE"
+    license_expression = "GPL-2.0-only"
     rule_type = "clamv"
 
     @classmethod

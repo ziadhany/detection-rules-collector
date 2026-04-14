@@ -58,7 +58,6 @@ class CollectSigmaRulesPipeline(BaseRulePipeline):
 
 class SigmaHQImproverPipeline(CollectSigmaRulesPipeline):
     repo_url = "https://github.com/SigmaHQ/sigma"
-    license_url = "https://github.com/SigmaHQ/Detection-Rule-License"
     rglob_patterns = [
         "rules/**/*.yml",
         "rules-emerging-threats/**/*.yml",
@@ -67,20 +66,23 @@ class SigmaHQImproverPipeline(CollectSigmaRulesPipeline):
         "rules-compliance/**/*.yml",
         "other/**/*.yml",
     ] # Ignore deprecated and unsupported directories.
+    license_url = "https://github.com/SigmaHQ/Detection-Rule-License"
+    license_expression = "DRL-1.1"
 
 
 class SigmaSamuraiMDRImproverPipeline(CollectSigmaRulesPipeline):
     repo_url = "https://github.com/SamuraiMDR/sigma-rules"
     license_urls = "https://github.com/SamuraiMDR/sigma-rules/blob/main/LICENSE"
-
+    license_expression = "DRL-1.1"
 
 class SigmaMbabinskiImproverPipeline(CollectSigmaRulesPipeline):
     repo_url = "https://github.com/mbabinski/Sigma-Rules"
     license_urls = "https://github.com/mbabinski/Sigma-Rules/blob/main/LICENSE"
-
+    license_expression = "GPL-3.0-only"
 
 class P4T12ICKSigmaImproverPipeline(CollectSigmaRulesPipeline):
     repo_url = "https://github.com/P4T12ICK/Sigma-Rule-Repository"
     license_urls = (
         "https://github.com/P4T12ICK/Sigma-Rule-Repository/blob/master/LICENSE.md"
     )
+    license_expression = "GPL-3.0-only "
