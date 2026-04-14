@@ -1,0 +1,16 @@
+{
+    "source_url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_disable_autologger_sessions.yml",
+    "rules": [
+        {
+            "rule_metadata": {
+                "status": "test",
+                "author": "Nasreddine Bencherchali (Nextron Systems)",
+                "date": "2022-08-01",
+                "title": "Potential AutoLogger Sessions Tampering",
+                "id": "f37b4bce-49d0-4087-9f5b-58bffda77316"
+            },
+            "rule_text": "title: Potential AutoLogger Sessions Tampering\nid: f37b4bce-49d0-4087-9f5b-58bffda77316\nstatus: test\ndescription: Detects tampering with autologger trace sessions which is a technique\n  used by attackers to disable logging\nreferences:\n- https://twitter.com/MichalKoczwara/status/1553634816016498688\n- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/\n- https://i.blackhat.com/EU-21/Wednesday/EU-21-Teodorescu-Veni-No-Vidi-No-Vici-Attacks-On-ETW-Blind-EDRs.pdf\nauthor: Nasreddine Bencherchali (Nextron Systems)\ndate: 2022-08-01\nmodified: 2025-10-07\ntags:\n- attack.defense-evasion\nlogsource:\n  category: registry_set\n  product: windows\ndetection:\n  selection_main:\n    TargetObject|contains: \\System\\CurrentControlSet\\Control\\WMI\\Autologger\\\n  selection_values:\n    TargetObject|contains:\n    - \\EventLog-\n    - \\Defender\n    TargetObject|endswith:\n    - \\Enable\n    - \\Start\n    Details: DWORD (0x00000000)\n  filter_main_wevtutil:\n    Image: C:\\Windows\\system32\\wevtutil.exe\n  filter_main_defender:\n    Image|startswith:\n    - C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\\n    - C:\\Program Files\\Windows Defender\\\n    - C:\\Program Files (x86)\\Windows Defender\\\n    Image|endswith: \\MsMpEng.exe\n    TargetObject|contains:\n    - \\DefenderApiLogger\\\n    - \\DefenderAuditLogger\\\n  condition: all of selection_* and not 1 of filter_main_*\nfalsepositives:\n- Unknown\nlevel: high\n",
+            "vulnerabilities": []
+        }
+    ]
+}

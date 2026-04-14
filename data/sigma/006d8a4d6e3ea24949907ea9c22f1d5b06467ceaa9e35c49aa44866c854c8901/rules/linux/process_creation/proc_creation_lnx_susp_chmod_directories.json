@@ -1,0 +1,16 @@
+{
+    "source_url": "https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_chmod_directories.yml",
+    "rules": [
+        {
+            "rule_metadata": {
+                "status": "test",
+                "author": "Christopher Peacock @SecurePeacock, SCYTHE @scythe_io",
+                "date": "2022-06-03",
+                "title": "Chmod Suspicious Directory",
+                "id": "6419afd1-3742-47a5-a7e6-b50386cd15f8"
+            },
+            "rule_text": "title: Chmod Suspicious Directory\nid: 6419afd1-3742-47a5-a7e6-b50386cd15f8\nstatus: test\ndescription: Detects chmod targeting files in abnormal directory paths.\nreferences:\n- https://www.intezer.com/blog/malware-analysis/new-backdoor-sysjoker/\n- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1222.002/T1222.002.md\nauthor: Christopher Peacock @SecurePeacock, SCYTHE @scythe_io\ndate: 2022-06-03\ntags:\n- attack.defense-evasion\n- attack.t1222.002\nlogsource:\n  product: linux\n  category: process_creation\ndetection:\n  selection:\n    Image|endswith: /chmod\n    CommandLine|contains:\n    - /tmp/\n    - /.Library/\n    - /etc/\n    - /opt/\n  condition: selection\nfalsepositives:\n- Admin changing file permissions.\nlevel: medium\n",
+            "vulnerabilities": []
+        }
+    ]
+}
