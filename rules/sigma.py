@@ -85,4 +85,4 @@ class P4T12ICKSigmaImproverPipeline(CollectSigmaRulesPipeline):
     license_urls = (
         "https://github.com/P4T12ICK/Sigma-Rule-Repository/blob/master/LICENSE.md"
     )
-    license_expression = "GPL-3.0-only "
+    license_expression = "GPL-3.0-only"
